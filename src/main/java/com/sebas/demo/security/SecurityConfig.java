@@ -3,6 +3,7 @@ package com.sebas.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +22,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    //As csrf isn't required, we disabled it
+    // As csrf isn't required, we disabled it
     @Bean
     @Autowired
     SecurityFilterChain securityFilterChain(HttpSecurity http, JWTValidationFilter jwtValidationFilter)
@@ -30,12 +31,13 @@ public class SecurityConfig {
         requestHandler.setCsrfRequestAttributeName("_csrf");
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/libros/**", "/prestamos/**").hasAnyRole("LIBRARIAN","ADMIN")
-                    .requestMatchers("/libros/**").hasRole("LIBRARIAN")
-                    .requestMatchers("/libros/**").hasRole("USER")
-                    .requestMatchers("/authenticate/**").permitAll()
-                    .requestMatchers(SWAGGER_WHILELIST).permitAll()
-                    .anyRequest().permitAll())
+                .requestMatchers(HttpMethod.GET, "/libros/**").hasRole("USER") 
+                .requestMatchers(HttpMethod.PUT, "/usuarios/**").hasRole("USER") 
+                .requestMatchers("/prestamos/**", "/libros/**").hasAnyRole("LIBRARIAN", "ADMIN")
+                .requestMatchers("/prestamos/**", "libros/**", "usuarios/**").hasRole("ADMIN")
+                .requestMatchers("/authenticate/**").permitAll()
+                .requestMatchers(SWAGGER_WHILELIST).permitAll()
+                .anyRequest().permitAll())
                 .addFilterAfter(jwtValidationFilter, BasicAuthenticationFilter.class);
         http.cors(cors -> corsConfigurationSource());
         http.csrf(csrf -> csrf.disable());
@@ -43,15 +45,17 @@ public class SecurityConfig {
     }
 
     private static final String[] SWAGGER_WHILELIST = {
-        "/swagger-ui/**",
-        "/v3/api-docs/**",
-        "/swagger-resources/**",
-        "/swagger-resources"
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-resources"
     };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         var config = new CorsConfiguration();

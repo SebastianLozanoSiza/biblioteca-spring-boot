@@ -1,5 +1,16 @@
 package com.sebas.demo.controllers;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sebas.demo.dto.UsuarioListDTO;
+import com.sebas.demo.dto.UsuarioSaveDTO;
+import com.sebas.demo.repositories.entities.Usuario;
+import com.sebas.demo.services.ServiceUsuario;
+
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,46 +26,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.sebas.demo.dto.LibroDTO;
-import com.sebas.demo.repositories.entities.Libro;
-import com.sebas.demo.services.ServiceLibro;
 
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/libros")
+@RequestMapping("/usuarios")
 @AllArgsConstructor
-public class LibroController {
+public class UsuarioController {
 
-    private ServiceLibro serviceLibro;
+    private ServiceUsuario serviceUsuario;
 
     @GetMapping
-    public ResponseEntity<List<LibroDTO>> findAll(){
-        List<LibroDTO> findAll = serviceLibro.findAll();
+    public ResponseEntity<List<UsuarioListDTO>> findAll(){
+        List<UsuarioListDTO> findAll = serviceUsuario.findAll();
         if (findAll == null || findAll.isEmpty()) {
             return ResponseEntity.noContent().build();
         }else{
             return ResponseEntity.ok(findAll);
         }
-        
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<Map<String,Object>> findAllById(@PathVariable Long id){
         Map<String,Object> response = new HashMap<>();
-        Libro libro = serviceLibro.findById(id);
-        response.put("libro", libro);
+        Usuario usuario = serviceUsuario.findById(id);
+        response.put("usuario", usuario);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody LibroDTO libro, BindingResult result){
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody UsuarioSaveDTO usuario, BindingResult result){
 
-        LibroDTO libroNew = null;
+        UsuarioSaveDTO usuarioNew = null;
 
         Map<String, Object> response = new HashMap<>();
 
@@ -68,24 +71,24 @@ public class LibroController {
         }
         try {
 
-            libroNew = serviceLibro.save(libro);
+            usuarioNew = serviceUsuario.save(usuario);
 
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al realizar los inserts en la base de datos de LibroDTO");
+            response.put("mensaje", "Error al realizar los inserts en la base de datos de UsuarioDTO");
             response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        response.put("mensaje", "Libro creado exitosamente");
-        response.put("libro", libroNew);
+        response.put("mensaje", "Usuario creado exitosamente");
+        response.put("usuario", usuarioNew);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Libro libro, BindingResult result,
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Usuario usuario, BindingResult result,
             @PathVariable Long id) {
 
-        Libro libroUpdate = null;
+        Usuario usuarioUpdate = null;
 
         Map<String, Object> response = new HashMap<>();
 
@@ -99,7 +102,7 @@ public class LibroController {
         }
         try {
 
-            libroUpdate = serviceLibro.update(id, libro);
+            usuarioUpdate = serviceUsuario.update(id, usuario);
 
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar los inserts en la base de datos");
@@ -108,8 +111,8 @@ public class LibroController {
 
         }
 
-        response.put("mensaje", "Libro actualizado exitosamente");
-        response.put("libro", libroUpdate);
+        response.put("mensaje", "Usuario actualizado exitosamente");
+        response.put("usuario", usuarioUpdate);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -119,15 +122,16 @@ public class LibroController {
 
         Map<String, Object> response = new HashMap<>();
         try {
-            serviceLibro.delete(id);
+            serviceUsuario.delete(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar los inserts en la base de datos");
             response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        response.put("mensaje", "Libro eliminado exitosamente");
+        response.put("mensaje", "Usuario eliminado exitosamente");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
     
 }

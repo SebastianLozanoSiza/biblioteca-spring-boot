@@ -21,7 +21,7 @@ public class PrestamoController {
 
     private ServicePrestamo servicePrestamo;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<PrestamoListDTO>> findAll(){
         List<PrestamoListDTO> findAll = servicePrestamo.findAll();
         if (findAll == null || findAll.isEmpty()) {
