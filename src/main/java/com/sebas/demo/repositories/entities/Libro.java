@@ -9,7 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,11 +39,11 @@ public class Libro implements Serializable{
     @Column(nullable = false)
     private String genero;
 
-    @NotEmpty(message = "El año de publicacion no puede estar vacio")
-    @Column(nullable = false)
+    @NotNull(message = "El año de publicación no puede estar vacío")
+    @Column(nullable = false, name = "publicacion")
     private Date añoPublicacion;
 
-    @NotEmpty(message = "La cantidad disponible no puede estar vacia")
-    @Column(nullable = false)
+    @Min(value = 0, message = "La cantidad disponible debe ser mayor o igual a cero")
+    @Column(nullable = false, name = "cantidad_disponible")
     private int cantidadDisponible;
 }
