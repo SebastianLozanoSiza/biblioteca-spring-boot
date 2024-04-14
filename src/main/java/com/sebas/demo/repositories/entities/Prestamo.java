@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,11 +41,11 @@ public class Prestamo implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     private Libro libro;
 
-    @NotEmpty(message = "La fecha de prestamo no puede estar vacia")
+    @NotNull(message = "La fecha de prestamo no puede estar vacia")
     @Column(nullable = false, name = "fecha_prestamo")
     private Date fechaPrestamo;
 
-    @NotEmpty(message = "La fecha de devolucion no puede estar vacia")
+    @NotNull(message = "La fecha de devolucion no puede estar vacia")
     @Column(nullable = false, name = "fecha_devolucion")
     private Date fechaDevolucion;
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sebas.demo.dto.PrestamoListDTO;
+import com.sebas.demo.dto.PrestamoSaveDTO;
 import com.sebas.demo.repositories.entities.Prestamo;
 
 @Component
@@ -33,5 +34,20 @@ public class PrestamoDTOConverter {
 
     public Prestamo convertPrestamoEntity(PrestamoListDTO prestamoDTO){
         return dbm.map(prestamoDTO, Prestamo.class);   
+    }
+
+    public PrestamoSaveDTO converPrestamoSaveDTO(Prestamo prestamo){
+        PrestamoSaveDTO prestamoSaveDTO = dbm.map(prestamo, PrestamoSaveDTO.class);
+        if (prestamo.getUsuario() != null) {
+            prestamoSaveDTO.setUsuarioId(prestamo.getUsuario().getId());
+        }
+        if (prestamo.getLibro() != null) {
+            prestamoSaveDTO.setLibroId(prestamo.getLibro().getId());
+        }
+        return prestamoSaveDTO;
+    }
+
+    public Prestamo convertPrestamoSaveEntity(PrestamoSaveDTO prestamoSaveDTO){
+        return dbm.map(prestamoSaveDTO, Prestamo.class);   
     }
 }

@@ -31,7 +31,8 @@ INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 5);
 INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 6);
 INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 7);
 INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 8);
-
+INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 9);
+INSERT INTO roles (nombre_rol, id_usuario) VALUES ('ROLE_USER', 10);
 -- Inserts para la entidad Prestamo
 INSERT INTO prestamos (id_usuario, id_libro, fecha_prestamo, fecha_devolucion, estado_prestamo) VALUES (1, 1, '2024-04-13', '2024-05-13', 0);
 INSERT INTO prestamos (id_usuario, id_libro, fecha_prestamo, fecha_devolucion, estado_prestamo) VALUES (2, 2, '2024-04-13', '2024-05-13', 1);

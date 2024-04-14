@@ -31,6 +31,7 @@ public class SecurityConfig {
         requestHandler.setCsrfRequestAttributeName("_csrf");
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("libros/**").hasAnyRole("USER", "LIBRARIAN")
                 .requestMatchers(HttpMethod.GET, "/libros/**").hasRole("USER") 
                 .requestMatchers(HttpMethod.PUT, "/usuarios/**").hasRole("USER") 
                 .requestMatchers("/prestamos/**", "/libros/**").hasAnyRole("LIBRARIAN", "ADMIN")

@@ -2,6 +2,8 @@ package com.sebas.demo.dto;
 
 import java.util.Date;
 
+import com.sebas.demo.resources.EstadoPrestamo;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class PrestamoSaveDTO {
 
     private Long id;
-    private String nombreUsuario;
-    private String nombreLibro;
+    private Long usuarioId;
+    private Long libroId;
     private Date fechaPrestamo;
     private Date fechaDevolucion;
-    
+    private EstadoPrestamo estadoPrestamo;
 }
