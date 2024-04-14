@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sebas.demo.dto.PrestamoListDTO;
-import com.sebas.demo.dto.PrestamoSaveDTO;
+import com.sebas.demo.dto.PrestamoDTO;
 import com.sebas.demo.repositories.entities.Prestamo;
 
 @Component
@@ -21,7 +21,7 @@ public class PrestamoDTOConverter {
         this.dbm = modelMapper;
     }
 
-    public PrestamoListDTO convertPrestamoDTO(Prestamo prestamo){
+    public PrestamoListDTO convertPrestamoListDTO(Prestamo prestamo){
         PrestamoListDTO prestamoDTO = dbm.map(prestamo, PrestamoListDTO.class);
         if(prestamo.getUsuario() != null){
             prestamoDTO.setNombreUsuario(prestamo.getUsuario().getNombre() + " " + prestamo.getUsuario().getApellido());
@@ -32,12 +32,12 @@ public class PrestamoDTOConverter {
         return prestamoDTO;
     }
 
-    public Prestamo convertPrestamoEntity(PrestamoListDTO prestamoDTO){
-        return dbm.map(prestamoDTO, Prestamo.class);   
+    public Prestamo convertPrestamoListEntity(PrestamoListDTO prestamoListDTO){
+        return dbm.map(prestamoListDTO, Prestamo.class);   
     }
 
-    public PrestamoSaveDTO converPrestamoSaveDTO(Prestamo prestamo){
-        PrestamoSaveDTO prestamoSaveDTO = dbm.map(prestamo, PrestamoSaveDTO.class);
+    public PrestamoDTO converPrestamoDTO(Prestamo prestamo){
+        PrestamoDTO prestamoSaveDTO = dbm.map(prestamo, PrestamoDTO.class);
         if (prestamo.getUsuario() != null) {
             prestamoSaveDTO.setUsuarioId(prestamo.getUsuario().getId());
         }
@@ -47,7 +47,7 @@ public class PrestamoDTOConverter {
         return prestamoSaveDTO;
     }
 
-    public Prestamo convertPrestamoSaveEntity(PrestamoSaveDTO prestamoSaveDTO){
-        return dbm.map(prestamoSaveDTO, Prestamo.class);   
+    public Prestamo convertPrestamoEntity(PrestamoDTO prestamoDTO){
+        return dbm.map(prestamoDTO, Prestamo.class);   
     }
 }

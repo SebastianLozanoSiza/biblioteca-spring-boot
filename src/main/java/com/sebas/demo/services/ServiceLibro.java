@@ -13,7 +13,7 @@ public interface ServiceLibro {
 
     LibroDTO save(LibroDTO libroDTO);
 
-    Libro update(Long id, Libro libro);
+    LibroDTO update(Long id, LibroDTO libroDTO);
 
     void delete(Long id);
 }

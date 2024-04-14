@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sebas.demo.dto.UsuarioListDTO;
-import com.sebas.demo.dto.UsuarioSaveDTO;
+import com.sebas.demo.dto.UsuarioDTO;
 import com.sebas.demo.repositories.entities.Usuario;
 
 @Component
@@ -31,12 +31,12 @@ public class UsuarioDTOConverter {
         return dbm.map(usuarioListDTO, Usuario.class);   
     }
 
-    public UsuarioSaveDTO convertUsuarioSaveDTO(Usuario usuario){
-        UsuarioSaveDTO usuarioSaveDTO = dbm.map(usuario, UsuarioSaveDTO.class);
+    public UsuarioDTO convertUsuarioDTO(Usuario usuario){
+        UsuarioDTO usuarioSaveDTO = dbm.map(usuario, UsuarioDTO.class);
         return usuarioSaveDTO;
     }
 
-    public Usuario convertUsuarioSaveEntity(UsuarioSaveDTO usuarioSaveDTO){
-        return dbm.map(usuarioSaveDTO, Usuario.class);   
+    public Usuario convertUsuarioEntity(UsuarioDTO usuarioDTO){
+        return dbm.map(usuarioDTO, Usuario.class);   
     }
 }

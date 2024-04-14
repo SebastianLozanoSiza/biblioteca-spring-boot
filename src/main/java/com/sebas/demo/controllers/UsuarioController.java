@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sebas.demo.dto.UsuarioListDTO;
-import com.sebas.demo.dto.UsuarioSaveDTO;
+import com.sebas.demo.dto.UsuarioDTO;
 import com.sebas.demo.repositories.entities.Usuario;
 import com.sebas.demo.services.ServiceUsuario;
 
@@ -55,9 +55,9 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody UsuarioSaveDTO usuario, BindingResult result){
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody UsuarioDTO usuario, BindingResult result){
 
-        UsuarioSaveDTO usuarioNew = null;
+        UsuarioDTO usuarioNew = null;
 
         Map<String, Object> response = new HashMap<>();
 
@@ -85,10 +85,10 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Usuario usuario, BindingResult result,
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody UsuarioDTO usuarioDTO, BindingResult result,
             @PathVariable Long id) {
 
-        Usuario usuarioUpdate = null;
+        UsuarioDTO usuarioUpdate = null;
 
         Map<String, Object> response = new HashMap<>();
 
@@ -102,7 +102,7 @@ public class UsuarioController {
         }
         try {
 
-            usuarioUpdate = serviceUsuario.update(id, usuario);
+            usuarioUpdate = serviceUsuario.update(id, usuarioDTO);
 
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar los inserts en la base de datos");

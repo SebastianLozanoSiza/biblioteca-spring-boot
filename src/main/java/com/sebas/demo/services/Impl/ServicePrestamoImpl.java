@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sebas.demo.config.PrestamoDTOConverter;
 import com.sebas.demo.dto.PrestamoListDTO;
-import com.sebas.demo.dto.PrestamoSaveDTO;
+import com.sebas.demo.dto.PrestamoDTO;
 import com.sebas.demo.repositories.RepositoryLibro;
 import com.sebas.demo.repositories.RepositoryPrestamo;
 import com.sebas.demo.repositories.RepositoryUsuario;
@@ -38,7 +38,7 @@ public class ServicePrestamoImpl implements ServicePrestamo{
     public List<PrestamoListDTO> findAll() {
         List<Prestamo> prestamos = (List<Prestamo>) repositoryPrestamo.findAll();
         return prestamos.stream()
-                    .map(prestamo -> convert.convertPrestamoDTO(prestamo))
+                    .map(prestamo -> convert.convertPrestamoListDTO(prestamo))
                     .toList();
     }
 
@@ -47,16 +47,16 @@ public class ServicePrestamoImpl implements ServicePrestamo{
     public List<PrestamoListDTO> listarPrestamosPorEstado(EstadoPrestamo estado) {
         List<Prestamo> prestamos = repositoryPrestamo.findByEstadoPrestamo(estado);
         return prestamos.stream()
-                    .map(prestamo -> convert.convertPrestamoDTO(prestamo))
+                    .map(prestamo -> convert.convertPrestamoListDTO(prestamo))
                     .toList();
     }
 
     @Override
     @Transactional
-    public PrestamoSaveDTO save(PrestamoSaveDTO prestamoSaveDTO) {
-        Optional<Usuario> usuario = repositoryUsuario.findById(prestamoSaveDTO.getUsuarioId());
-        Optional<Libro> libro = repositoryLibro.findById(prestamoSaveDTO.getLibroId());
-        Prestamo result = convert.convertPrestamoSaveEntity(prestamoSaveDTO);
+    public PrestamoDTO save(PrestamoDTO prestamoDTO) {
+        Optional<Usuario> usuario = repositoryUsuario.findById(prestamoDTO.getUsuarioId());
+        Optional<Libro> libro = repositoryLibro.findById(prestamoDTO.getLibroId());
+        Prestamo result = convert.convertPrestamoEntity(prestamoDTO);
         if (!usuario.isPresent()) {
             System.out.println("Error, usuario no existente");
         }
@@ -65,14 +65,25 @@ public class ServicePrestamoImpl implements ServicePrestamo{
         }
         result.setUsuario(usuario.get());
         result.setLibro(libro.get());
-        return convert.converPrestamoSaveDTO(repositoryPrestamo.save(result));
+        return convert.converPrestamoDTO(repositoryPrestamo.save(result));
     }
 
     @Override
     @Transactional
-    public Prestamo update(Long id, Prestamo prestamo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public PrestamoDTO update(Long id, PrestamoDTO prestamoDTO) {
+        Optional<Usuario> usuarOptional = repositoryUsuario.findById(prestamoDTO.getUsuarioId());
+        Optional<Libro> libroOptional = repositoryLibro.findById(prestamoDTO.getLibroId());
+        Optional<Prestamo> prestamoCurrentOptional = repositoryPrestamo.findById(id);
+
+        if (usuarOptional.isPresent() && libroOptional.isPresent() && prestamoCurrentOptional.isPresent()) {
+            Prestamo prestamoCurrent = prestamoCurrentOptional.get();
+            prestamoCurrent.setUsuario(usuarOptional.get());
+            prestamoCurrent.setLibro(libroOptional.get());
+            prestamoCurrent.setEstadoPrestamo(prestamoDTO.getEstadoPrestamo());
+            repositoryPrestamo.save(prestamoCurrent);
+            return convert.converPrestamoDTO(prestamoCurrent);
+        }
+        return null;
     }
 
     @Override

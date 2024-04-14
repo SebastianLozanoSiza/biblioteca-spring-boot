@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioSaveDTO {
+public class UsuarioDTO {
 
     private Long id;
     private String cedula;

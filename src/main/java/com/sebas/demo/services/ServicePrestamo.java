@@ -3,8 +3,7 @@ package com.sebas.demo.services;
 import java.util.List;
 
 import com.sebas.demo.dto.PrestamoListDTO;
-import com.sebas.demo.dto.PrestamoSaveDTO;
-import com.sebas.demo.repositories.entities.Prestamo;
+import com.sebas.demo.dto.PrestamoDTO;
 import com.sebas.demo.resources.EstadoPrestamo;
 
 public interface ServicePrestamo {
@@ -13,9 +12,9 @@ public interface ServicePrestamo {
 
     List<PrestamoListDTO> listarPrestamosPorEstado(EstadoPrestamo estado);
 
-    PrestamoSaveDTO save(PrestamoSaveDTO prestamoSaveDTO);
+    PrestamoDTO save(PrestamoDTO prestamoDTO);
 
-    Prestamo update(Long id, Prestamo prestamo);
+    PrestamoDTO update(Long id, PrestamoDTO prestamoDTO);
 
     void delete(Long id);
 

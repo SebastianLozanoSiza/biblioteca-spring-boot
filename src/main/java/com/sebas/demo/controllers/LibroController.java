@@ -82,10 +82,10 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Libro libro, BindingResult result,
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody LibroDTO libroDTO, BindingResult result,
             @PathVariable Long id) {
 
-        Libro libroUpdate = null;
+        LibroDTO libroUpdate = null;
 
         Map<String, Object> response = new HashMap<>();
 
@@ -99,7 +99,7 @@ public class LibroController {
         }
         try {
 
-            libroUpdate = serviceLibro.update(id, libro);
+            libroUpdate = serviceLibro.update(id, libroDTO);
 
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar los inserts en la base de datos");

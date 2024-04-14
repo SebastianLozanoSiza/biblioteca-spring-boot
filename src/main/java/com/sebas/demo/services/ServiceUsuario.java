@@ -3,7 +3,7 @@ package com.sebas.demo.services;
 import java.util.List;
 
 import com.sebas.demo.dto.UsuarioListDTO;
-import com.sebas.demo.dto.UsuarioSaveDTO;
+import com.sebas.demo.dto.UsuarioDTO;
 import com.sebas.demo.repositories.entities.Usuario;
 
 public interface ServiceUsuario {
@@ -12,9 +12,9 @@ public interface ServiceUsuario {
 
     Usuario findById(Long id);
 
-    UsuarioSaveDTO save(UsuarioSaveDTO usuarioSaveDTO);
+    UsuarioDTO save(UsuarioDTO usuarioDTO);
 
-    Usuario update(Long id, Usuario usuario);
+    UsuarioDTO update(Long id, UsuarioDTO usuarioDTO);
 
     void delete(Long id);
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PrestamoSaveDTO {
+public class PrestamoDTO {
 
     private Long id;
     private Long usuarioId;

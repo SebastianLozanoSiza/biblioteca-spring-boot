@@ -50,18 +50,18 @@ public class ServiceLibroImpl implements ServiceLibro{
 
     @Override
     @Transactional()
-    public Libro update(Long id, Libro libro) {
+    public LibroDTO update(Long id, LibroDTO libroDTO) {
         Optional<Libro> libroCurrentOptional = repositoryLibro.findById(id);
 
         if (libroCurrentOptional.isPresent()) {
             Libro libroCurrent = libroCurrentOptional.get();
-            libroCurrent.setTitulo(libro.getTitulo());
-            libroCurrent.setAutor(libro.getAutor());
-            libroCurrent.setGenero(libro.getGenero());
-            libroCurrent.setAñoPublicacion(libro.getAñoPublicacion());
-            libroCurrent.setCantidadDisponible(libro.getCantidadDisponible());
+            libroCurrent.setTitulo(libroDTO.getTitulo());
+            libroCurrent.setAutor(libroDTO.getAutor());
+            libroCurrent.setGenero(libroDTO.getGenero());
+            libroCurrent.setAñoPublicacion(libroDTO.getAñoPublicacion());
+            libroCurrent.setCantidadDisponible(libroDTO.getCantidadDisponible());
             repositoryLibro.save(libroCurrent);
-            return libroCurrent;
+            return convert.convertLibroDTO(libroCurrent);
         }
 
         return null;
